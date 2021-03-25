@@ -5,11 +5,10 @@ const fct = require('../../util/fct.js');
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
     try {
-      let answerCount = 1, message;
+      let answerCount = 1;
       const filter = (reaction, user) => {
-      	return reaction.emoji.name === '👍' && user.id === msg.author.id;
+        return reaction.emoji.name === '👍' && user.id === msg.author.id;
       };
-
 
       if (!isNaN(args[0])) {
         if (+args[0] < 1 || +args[0] > 5) {
@@ -20,7 +19,7 @@ module.exports = (msg,args) => {
       }
 
       const question = args.slice(0,args.length+1).join(' ');
-      message = await msg.channel.send('Do you wish to ask your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + msg.client.appData.settings.pricePerAnswer + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '.');
+      const message = await msg.channel.send('Do you wish to ask your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + answerCount + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '.');
       message.react('👍');
 
       const collected = await message.awaitReactions(filter, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
@@ -34,12 +33,12 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      const price = answerCount * msg.client.appData.settings.pricePerAnswer;
+      const price = answerCount /* * msg.client.appData.settings.pricePerAnswer*/;
       if (myUser.credits < price) {
         await msg.channel.send('Not enough favors left. Use the ``'+msg.guild.appData.prefix+'!`` command to gain more favors by answering the Oracles questions.');
         return resolve();
       }
-      console.log(question);
+
       const res = await questionModel.create('discord',msg.channel.id,myUser.id,question,answerCount);
 
       await msg.channel.send('Your question has been sent to the Oracle!');

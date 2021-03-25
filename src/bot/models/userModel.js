@@ -43,6 +43,7 @@ exports.storage.get = (user) => {
       if (!res)
         res = await db.fetch({userId: user.id, username:user.username,tag: user.discriminator},'/api/discord_user/create','post');
 
+      console.log(res);
       return resolve(res);
     } catch (e) { reject(e); }
   });
