@@ -23,7 +23,10 @@ exports.get = (id) => {
           '/api/answer/get/' + id,
           'get');
 
-      resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 }
@@ -36,7 +39,10 @@ exports.getByQuestionId = (questionId) => {
           '/api/answer/getByQuestion/' + questionId,
           'get');
 
-      resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 }
@@ -49,7 +55,10 @@ exports.getByUserId = (userId) => {
           '/api/answer/getByUserId/' + userId,
           'get');
 
-      resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 }

@@ -1,6 +1,7 @@
 const questionModel = require('../models/questionModel.js');
 const userModel = require('../models/userModel.js');
 const fct = require('../../util/fct.js');
+const errorMsgs = require('../../const/errorMsgs.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
@@ -19,7 +20,13 @@ module.exports = (msg,args) => {
       }
 
       const question = args.slice(0,args.length+1).join(' ');
-      const message = await msg.channel.send('Do you wish to ask your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + answerCount + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '.');
+
+      if (question.trim() == '') {
+        await msg.channel.send('Please enter a question after the command.');
+        return resolve();
+      }
+
+      const message = await msg.channel.send('Do you wish to send your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + answerCount + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '. Please verify by reacting with a 👍.');
       message.react('👍');
 
       const collected = await message.awaitReactions(filter, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
@@ -28,22 +35,27 @@ module.exports = (msg,args) => {
         return resolve();
 
       const myUser = await userModel.storage.get(msg.author);
-      if (fct.isBanned(myUser)) {
-        await msg.channel.send('You are still banned and need to wait until you can use this bot again.');
-        return resolve();
-      }
+      const res = await questionModel.create('discord',msg.channel.id,myUser.userId,question,answerCount);
 
-      const price = answerCount /* * msg.client.appData.settings.pricePerAnswer*/;
-      if (myUser.credits < price) {
-        await msg.channel.send('Not enough favors left. Use the ``'+msg.guild.appData.prefix+'!`` command to gain more favors by answering the Oracles questions.');
-        return resolve();
-      }
+      if (res.error)
+        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+      else
+        await msg.channel.send('Your question has been sent to the Oracle!');
 
-      const res = await questionModel.create('discord',msg.channel.id,myUser.id,question,answerCount);
-
-      await msg.channel.send('Your question has been sent to the Oracle!');
     } catch (e) { return reject(e); }
 
-    resolve();
+    return resolve();
   });
 }
+
+/*
+if (fct.isBanned(myUser)) {
+  await msg.channel.send('You are still banned and need to wait until you can use this bot again.');
+  return resolve();
+}
+
+const price = answerCount; // * msg.client.appData.settings.pricePerAnswer;
+if (myUser.credits < price) {
+  await msg.channel.send('Not enough favors left. Use the ``'+msg.guild.appData.prefix+'!`` command to gain more favors by answering the Oracles questions.');
+  return resolve();
+}*/

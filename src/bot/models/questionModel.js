@@ -1,10 +1,23 @@
 const db = require('../../models/db.js');
 
-exports.create = (guildId,channelId,userId,question,answerCount) => {
+exports.getQuestionToAnswer = (userId) => {
+  return new Promise(async function (resolve, reject) {
+    try {
+      const res = await db.fetch(
+          null,
+          '/api/question/getQuestionToAnswer/' + userId,
+          'get');
+
+      resolve(res);
+    } catch (e) { reject(e); }
+  });
+}
+
+exports.create = (source,channelId,userId,question,answerCount) => {
   return new Promise(async function (resolve, reject) {
     try {
       const res = await db.fetch({
-            guildId: guildId,
+            source: source,
             channelId: channelId,
             userId: userId,
             question: question,
@@ -25,7 +38,10 @@ exports.get = (id) => {
           '/api/question/get/' + id,
           'get');
 
-      resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 }
@@ -38,7 +54,10 @@ exports.getAll = (page) => {
           '/api/question/getAll/' + page,
           'get');
 
-      resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 }
@@ -51,10 +70,30 @@ exports.getByUserId = (userId) => {
           '/api/question/getByUserId/' + userId,
           'get');
 
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
+    } catch (e) { reject(e); }
+  });
+}
+
+
+
+/*
+exports.getFinishedButNotSent = () => {
+  return new Promise(async function (resolve, reject) {
+    try {
+      const res = await db.fetch(
+          null,
+          '/api/question/getFinishedButNotSent/',
+          'get');
+
       resolve(res);
     } catch (e) { reject(e); }
   });
 }
+
 
 exports.set = (id,field,value) => {
   return new Promise(async function (resolve, reject) {
@@ -70,29 +109,4 @@ exports.set = (id,field,value) => {
     } catch (e) { reject(e); }
   });
 }
-
-exports.getQuestionToAnswer = (userId) => {
-  return new Promise(async function (resolve, reject) {
-    try {
-      const res = await db.fetch(
-          null,
-          '/api/question/getQuestionToAnswer/' + userId,
-          'get');
-
-      resolve(res);
-    } catch (e) { reject(e); }
-  });
-}
-
-exports.getFinishedButNotSent = () => {
-  return new Promise(async function (resolve, reject) {
-    try {
-      const res = await db.fetch(
-          null,
-          '/api/question/getFinishedButNotSent/',
-          'get');
-
-      resolve(res);
-    } catch (e) { reject(e); }
-  });
-}
+*/

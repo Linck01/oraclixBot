@@ -3,6 +3,7 @@ const questionModel = require('../models/questionModel.js');
 const config = require('../../const/config.js');
 const fct = require('../../util/fct.js');
 const userModel = require('../models/userModel.js');
+const errorMsgs = require('../../const/errorMsgs.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
@@ -13,19 +14,20 @@ module.exports = (msg,args) => {
       };
 
       const myUser = await userModel.storage.get(msg.author);
-      if (fct.isBanned(myUser)) {
-        await msg.channel.send('You are still banned and need to wait until you can use this bot again.');
-        return resolve();
-      }
+      let question;
+      let res = await questionModel.getQuestionToAnswer(myUser.userId);
 
-      question = await questionModel.getQuestionToAnswer(myUser.id);
+      if (res.error)
+        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+      else
+        question = res.results;
 
       if (!question) {
-        msg.channel.send('Sorry, there are no more questions of this kind to the universe right now. Please try again later!');
+        msg.channel.send('Sorry, there are no more open questions right now. Please try again later!');
         return resolve();
       }
 
-      await msg.channel.send('The Oracle sends you the following question: ``' + question.text + '``');
+      await msg.channel.send('Please answer the following question: ``' + question.text + '``');
       let answer = await msg.channel.awaitMessages(filterMsg, { max: 1, time: 8000, errors: ['time'] }).catch(c => {});
 
       if (!answer) {
@@ -39,7 +41,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      const message = await msg.channel.send('Do you wish to send your answer to Oraclix? \n ``' + answer + '``\n This will grant you ' + msg.client.appData.settings.rewardPerAnswer + ' favor.');
+      const message = await msg.channel.send('Do you wish to send your answer? \n ``' + answer + '``\n This will grant you ' + msg.client.appData.settings.rewardPerAnswer + ' favor. Please verify by reacting with a 👍.');
       await message.react('👍');
 
       const collected = await message.awaitReactions(filterEmoji, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
@@ -49,8 +51,13 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      await answerModel.create(question.id,myUser.id,answer);
-      await msg.channel.send('Your answer has been submitted.');
+      res = await answerModel.create(question.id,myUser.userId,answer);
+
+      if (res.error)
+        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+      else
+        await msg.channel.send('Your answer has been sent to the Oracle!');
+
     } catch (e) { return reject(e); }
 
     resolve();

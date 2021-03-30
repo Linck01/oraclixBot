@@ -34,6 +34,12 @@ module.exports = (msg) => {
 				await commands.get('patchnotes')(msg,args);
 			else if (command == 'help' || command == 'h')
 				await commands.get('help')(msg,args);
+			else if (command == 'report' || command == 'r')
+				await commands.get('report')(msg,args);
+			else if (command == 'ban' || command == 'b')
+				await commands.get('ban')(msg,args);
+			else if (command == 'showreports' || command == 'b')
+				await commands.get('showReports')(msg,args);
 			else if (command == 'faq' || command == 'faqs' || command == 'f')
 				await commands.get('faq')(msg,args);
 			else

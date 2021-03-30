@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const fct = require('../util/fct.js');
 const cronScheduler = require('./cron/scheduler.js');
 const db = require('../models/db.js');
+const miscModel = require('../models/miscModel.js');
 
 const client = new Discord.Client(
   {ws: {intents:
@@ -68,8 +69,8 @@ function initClientCaches(client) {
     try {
       client.appData = {};
       client.appData.botShardStat = { commands1h: 0, botInvites1h: 0, botKicks1h: 0};
-      client.appData.settings = await db.fetch(null,'/api/misc/settings/','get');
-      client.appData.texts = await db.fetch(null,'/api/misc/texts/','get');
+      client.appData.settings = await miscModel.getSettings();
+      client.appData.texts = await miscModel.getTexts();
 
       resolve();
     } catch (e) { console.log(e); }

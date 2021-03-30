@@ -46,7 +46,10 @@ exports.storage.get = (guild) => {
     try {
       const res = await db.fetch(null,'/api/discord_guild/get/' + guild.id,'get');
 
-      return resolve(res);
+      if (res.error)
+        return reject(res.error);
+      else
+        return resolve(res.results);
     } catch (e) { reject(e); }
   });
 };
@@ -56,8 +59,15 @@ const buildCache = (guild) => {
     try {
       let cache = await exports.storage.get(guild);
 
-      if (!cache)
-        cache = await db.fetch({guildId: guild.id},'/api/discord_guild/create','post');
+      if (!cache) {
+        const res = await db.fetch({guildId: guild.id},'/api/discord_guild/create','post');
+
+        if (res.error)
+          return reject(res.error);
+        else
+          cache = res.results;
+      }
+
 
       cache.addDate = cache.addDate * 1;
       guild.appData = cache;
