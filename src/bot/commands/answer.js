@@ -2,7 +2,7 @@ const answerModel = require('../models/answerModel.js');
 const questionModel = require('../models/questionModel.js');
 const config = require('../../const/config.js');
 const fct = require('../../util/fct.js');
-const userModel = require('../models/userModel.js');
+const discord_userModel = require('../models/discord_userModel.js');
 const errorMsgs = require('../../const/errorMsgs.js');
 
 module.exports = (msg,args) => {
@@ -13,9 +13,9 @@ module.exports = (msg,args) => {
         return reaction.emoji.name === '👍' && user.id === msg.author.id;
       };
 
-      const myUser = await userModel.storage.get(msg.author);
+      const myDiscord_user = await discord_userModel.get(msg.author);
       let question;
-      let res = await questionModel.getQuestionToAnswer(myUser.userId);
+      let res = await questionModel.getQuestionToAnswer(myDiscord_user.userId);
 
       if (res.error)
         return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
@@ -51,7 +51,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      res = await answerModel.create(question.id,myUser.userId,answer);
+      res = await answerModel.create(question.id,myDiscord_user.userId,answer);
 
       if (res.error)
         return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));

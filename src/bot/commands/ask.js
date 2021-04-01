@@ -1,5 +1,5 @@
 const questionModel = require('../models/questionModel.js');
-const userModel = require('../models/userModel.js');
+const discord_userModel = require('../models/discord_userModel.js');
 const fct = require('../../util/fct.js');
 const errorMsgs = require('../../const/errorMsgs.js');
 
@@ -34,8 +34,8 @@ module.exports = (msg,args) => {
       if (!collected)
         return resolve();
 
-      const myUser = await userModel.storage.get(msg.author);
-      const res = await questionModel.create('discord',msg.channel.id,myUser.userId,question,answerCount);
+      const myDiscord_user = await discord_userModel.get(msg.author);
+      const res = await questionModel.create('discord',msg.channel.id,myDiscord_user.userId,question,answerCount);
 
       if (res.error)
         return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));

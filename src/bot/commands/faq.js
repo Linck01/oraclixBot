@@ -1,4 +1,3 @@
-const guildModel = require('../models/guild/guildModel.js');
 const Discord = require('discord.js');
 const errorMsgs = require('../../const/errorMsgs.js');
 const fct = require('../../util/fct.js');

@@ -18,11 +18,12 @@ const messages = {
   userNotFound : 'User not found.',
   default : 'Something went wrong.',
   authorizationFailed: 'Authorization failed.',
-  userDoesNotExist: 'User does not exist´.',
+  userDoesNotExist: 'User does not exist.',
   notEnoughCredits: 'Not enough favors left. Use the ``<prefix>!`` command to gain more favors by answering the Oracles questions.',
   userBanned: 'You are still banned and need to wait until you can use this bot again.',
   questionOrAnswerDoesNotExist: 'Could not find question/answer with given id.',
-  cantSelfReport: 'You cannot report yourself.'
+  cantSelfReport: 'You cannot report yourself.',
+  reportAlreadyInDB: 'Report was already registered.'
 }
 
 exports.get = (tag) => {

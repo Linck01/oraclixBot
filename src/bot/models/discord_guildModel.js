@@ -1,6 +1,6 @@
-const db = require('../../../models/db.js');
+const db = require('../../models/db.js');
 const mysql = require('promise-mysql');
-const fct = require('../../../util/fct.js');
+const fct = require('../../util/fct.js');
 
 const promises = {};
 exports.cache = {};

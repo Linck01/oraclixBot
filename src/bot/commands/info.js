@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const guildModel = require('../models/guild/guildModel.js');
+const discord_guildModel = require('../models/discord_guildModel.js');
 const fct = require('../../util/fct.js');
 const nameUtil = require('../util/nameUtil.js');
 const errorMsgs = require('../../const/errorMsgs.js');
@@ -7,7 +7,7 @@ const errorMsgs = require('../../const/errorMsgs.js');
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
     try {
-      const myGuild = await guildModel.storage.get(msg.guild);
+      const myGuild = await discord_guildModel.storage.get(msg.guild);
       const page = fct.extractPage(args,myGuild.entriesPerPage);
 
       let subcommand;

@@ -1,4 +1,4 @@
-const guildModel = require('../models/guild/guildModel.js');
+const discord_guildModel = require('../models/discord_guildModel.js');
 const fct = require('../../util/fct.js');
 const errorMsgs = require('../../const/errorMsgs.js');
 
@@ -46,7 +46,7 @@ function prefix(msg,value) {
         return resolve();
       }
 
-      await guildModel.storage.set(msg.guild,'prefix',value);
+      await discord_guildModel.storage.set(msg.guild,'prefix',value);
       await msg.channel.send('Setting updated.');
       resolve();
     } catch (e) { reject(e); }
@@ -61,7 +61,7 @@ function entriesperpage(msg,value) {
         return resolve();
       }
 
-      await guildModel.storage.set(msg.guild,'entriesPerPage',value);
+      await discord_guildModel.storage.set(msg.guild,'entriesPerPage',value);
       await msg.channel.send('Setting updated.');
       resolve();
     } catch (e) { reject(e); }
@@ -71,13 +71,13 @@ function entriesperpage(msg,value) {
 function showNicknames(msg,value) {
   return new Promise(async function (resolve, reject) {
     try {
-      const myGuild = await guildModel.storage.get(msg.guild);
+      const myGuild = await discord_guildModel.storage.get(msg.guild);
 
       if (myGuild.showNicknames) {
-        await guildModel.storage.set(msg.guild,'showNicknames',0);
+        await discord_guildModel.storage.set(msg.guild,'showNicknames',0);
         await msg.channel.send('Users *usernames* will show on all embeds and messages.');
       } else {
-        await guildModel.storage.set(msg.guild,'showNicknames',1);
+        await discord_guildModel.storage.set(msg.guild,'showNicknames',1);
         await msg.channel.send('Users *nicknames* will show on all embeds and messages.');
       }
       resolve();
