@@ -36,7 +36,7 @@ exports.getByQuestionId = (questionId) => {
     try {
       const res = await db.fetch(
           null,
-          '/api/answer/getByQuestion/' + questionId,
+          '/api/answer/getByQuestionId/' + questionId,
           'get');
 
       if (res.error)

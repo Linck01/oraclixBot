@@ -24,6 +24,8 @@ module.exports = (msg) => {
 				await commands.get('ask')(msg,args);
 			else if (command == '!' || command == 'answer')
 				await commands.get('answer')(msg,args);
+			else if (command == 'show' || command == 's')
+				await commands.get('show')(msg,args);
 			else if (command == 'favor' || command == 'favors')
 				await commands.get('favor')(msg,args);
 			else if (command == 'info' || command == 'i')
@@ -38,7 +40,7 @@ module.exports = (msg) => {
 				await commands.get('report')(msg,args);
 			else if (command == 'ban' || command == 'b')
 				await commands.get('ban')(msg,args);
-			else if (command == 'showreports' || command == 'b')
+			else if (command == 'showreports' || command == 'sr')
 				await commands.get('showReports')(msg,args);
 			else if (command == 'faq' || command == 'faqs' || command == 'f')
 				await commands.get('faq')(msg,args);

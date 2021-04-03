@@ -1,4 +1,5 @@
 const db = require('../../models/db.js');
+const config = require('../../const/config.js');
 
 exports.getQuestionToAnswer = (userId) => {
   return new Promise(async function (resolve, reject) {
@@ -13,11 +14,11 @@ exports.getQuestionToAnswer = (userId) => {
   });
 }
 
-exports.create = (source,channelId,userId,question,answerCount) => {
+exports.create = (channelId,userId,question,answerCount) => {
   return new Promise(async function (resolve, reject) {
     try {
       const res = await db.fetch({
-            source: source,
+            source: config.sourceInt,
             channelId: channelId,
             userId: userId,
             question: question,
@@ -45,6 +46,16 @@ exports.get = (id) => {
     } catch (e) { reject(e); }
   });
 }
+
+exports.set = (id,field,value) => {
+  return new Promise(async function (resolve, reject) {
+    try {
+      await db.fetch({id: id,field: field,value: value},'/api/question/set/','put');
+
+      return resolve();
+    } catch (e) { reject(e); }
+  });
+};
 
 exports.getAll = (page) => {
   return new Promise(async function (resolve, reject) {
