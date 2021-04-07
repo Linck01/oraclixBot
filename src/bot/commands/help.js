@@ -26,7 +26,7 @@ function helpMainEmbed (guild,sections) {
     .setAuthor('ActivityRank Manual')
     .setColor(0x00AE86)
     //.setDescription('A level and stat bot. \n - Track users voice- and textchannel activity and grant XP for each.\n - Track most active voice- and textchannels.\n - Let users grant each other XP via social upvotes.\n - Auto assign and deassign roles upon reaching a certain level.\n - Customize XP granted for each activity and XP necessary for each subsequent level.')
-    .setDescription('Website: *https://activityrank.me/commands*. \n Support server: *https://discord.com/invite/DE3eQ8H*. \n By using this bot you accept the terms and conditions: *https://activityrank.me/termsandconditions*.')
+    .setDescription('Website: *https://zoraclix.com/commands*. \n Support server: *https://discord.gg/GUz3dDnr5X*. \n By using this bot you accept the terms and conditions: *https://zoraclix.com/termsandconditions*.')
     .setImage('')
     .setThumbnail('')
   ;

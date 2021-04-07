@@ -23,7 +23,10 @@ const messages = {
   userBanned: 'You are still banned and need to wait until you can use this bot again.',
   questionOrAnswerDoesNotExist: 'Could not find question/answer with given id.',
   cantSelfReport: 'You cannot report yourself.',
-  reportAlreadyInDB: 'Report was already registered.'
+  reportAlreadyInDB: 'Report was already registered.',
+  tipAmountWrong: 'You can only tip from 0.2 to 10 favors. Type ``<prefix>help`` for more information',
+  argumentNotDigit: 'The argument has to be a digit.',
+  answerNotFound: 'Could not find answer.'
 }
 
 exports.get = (tag) => {

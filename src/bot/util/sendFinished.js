@@ -24,7 +24,7 @@ module.exports.init = (client) => {
             author = await channel.guild.members.fetch(myAuthor.sourceId);
           const ping = '<@' + myAuthor.sourceId + '>';
 
-          //await questionModel.set(question.id,'sent',1);
+          await questionModel.set(question.id,'sent',1);
           await channel.send(ping + ' your Question has been answered!',getAnswerEmbed(question,question.answers));
           console.log('Successfully answered question ' + question.id + ' in guild ' + channel.guild.name + ' (' + question.answers.length + ' answers).');
         }

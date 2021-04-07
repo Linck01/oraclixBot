@@ -3,22 +3,12 @@ const mysql = require('promise-mysql');
 const fct = require('../../util/fct.js');
 const config = require('../../const/config.js');
 
-exports.set = (user,field,value) => {
+exports.tip = (fromUserId,answerId,amount) => {
   return new Promise(async function (resolve, reject) {
     try {
-      await db.fetch({userId: user.id,field: field,value: value},'/api/discord_user/set/','put');
+      const res = await db.fetch({fromUserId: fromUserId,answerId: answerId,amount: amount},'/api/user/tip/','put');
 
-      return resolve();
-    } catch (e) { reject(e); }
-  });
-};
-
-exports.increment = (user,field,value) => {
-  return new Promise(async function (resolve, reject) {
-    try {
-      await db.fetch({userId: user.id,field: field,value: value},'/api/discord_user/inc/','put');
-
-      return resolve();
+      return resolve(res);
     } catch (e) { reject(e); }
   });
 };

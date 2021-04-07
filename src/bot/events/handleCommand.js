@@ -28,6 +28,8 @@ module.exports = (msg) => {
 				await commands.get('show')(msg,args);
 			else if (command == 'favor' || command == 'favors')
 				await commands.get('favor')(msg,args);
+			else if (command == 'tip' || command == 't')
+				await commands.get('tip')(msg,args);
 			else if (command == 'info' || command == 'i')
 				await commands.get('info')(msg,args);
 			else if (command == 'patchnote')
