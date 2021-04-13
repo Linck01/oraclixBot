@@ -26,12 +26,16 @@ module.exports = (msg) => {
 				await commands.get('answer')(msg,args);
 			else if (command == 'show' || command == 's')
 				await commands.get('show')(msg,args);
+			else if (command == 'latest' || command == 'l')
+				await commands.get('latest')(msg,args);
 			else if (command == 'favor' || command == 'favors')
 				await commands.get('favor')(msg,args);
 			else if (command == 'tip' || command == 't')
 				await commands.get('tip')(msg,args);
-			else if (command == 'info' || command == 'i')
-				await commands.get('info')(msg,args);
+			else if (command == 'myquestions' || command == 'mq')
+				await commands.get('myquestions')(msg,args);
+			else if (command == 'myprofile' || command == 'mp')
+				await commands.get('myprofile')(msg,args);
 			else if (command == 'patchnote')
 				await commands.get('patchnote')(msg,args);
 			else if (command == 'patchnotes' || command == 'p')

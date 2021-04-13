@@ -10,7 +10,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
       if (args.length < 1) {
-        await msg.channel.send(errorMsgs.tooFewArguments.replace('<prefix>',msg.guild.appData.prefix));
+        await msg.channel.send(errorMsgs.get('tooFewArguments').replace('<prefix>',msg.guild.appData.prefix));
         return resolve();
       }
 

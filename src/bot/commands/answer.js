@@ -41,7 +41,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      const message = await msg.channel.send('Do you wish to send your answer? \n ``' + answer + '``\n This will grant you ' + msg.client.appData.settings.rewardPerAnswer + ' favor. Please verify by reacting with a 👍.');
+      const message = await msg.channel.send('Do you wish to send your answer? \n ``' + answer + '``\n This will grant you 1 favor. Please verify by reacting with a 👍.');
       await message.react('👍');
 
       const collected = await message.awaitReactions(filterEmoji, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});

@@ -10,7 +10,7 @@ module.exports = (msg,args) => {
       }
 
       if (args.length < 2) {
-        await msg.channel.send(errorMsgs.tooFewArguments.replace('<prefix>',msg.guild.appData.prefix));
+        await msg.channel.send(errorMsgs.get('tooFewArguments').replace('<prefix>',msg.guild.appData.prefix));
         return resolve();
       }
       const userId = args[0];

@@ -57,12 +57,12 @@ exports.set = (id,field,value) => {
   });
 };
 
-exports.getAll = (page) => {
+exports.getLatest = (from,to) => {
   return new Promise(async function (resolve, reject) {
     try {
       const res = await db.fetch(
           null,
-          '/api/question/getAll/' + page,
+          '/api/question/getLatest/' + from + '/' + to,
           'get');
 
       if (res.error)

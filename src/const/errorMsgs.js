@@ -24,9 +24,10 @@ const messages = {
   questionOrAnswerDoesNotExist: 'Could not find question/answer with given id.',
   cantSelfReport: 'You cannot report yourself.',
   reportAlreadyInDB: 'Report was already registered.',
-  tipAmountWrong: 'You can only tip from 0.2 to 10 favors. Type ``<prefix>help`` for more information',
+  tipAmountWrong: 'You can only tip from 0.2 to 10 favors. Type ``<prefix>help`` for more information.',
   argumentNotDigit: 'The argument has to be a digit.',
-  answerNotFound: 'Could not find answer.'
+  answerNotFound: 'Could not find answer.',
+  invalidReportReason: 'Report reason has to be either "atos" (against terms of service) or "unrelated" (if the answer has nothing to do with the question).'
 }
 
 exports.get = (tag) => {

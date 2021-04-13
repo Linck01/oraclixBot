@@ -1,7 +1,7 @@
 version: '3.3'
 services:
-  zoraclebot:
-    container_name: zoracleBot
+  oraclixbot:
+    container_name: oraclixBot
     restart: always
     build: .
     volumes:

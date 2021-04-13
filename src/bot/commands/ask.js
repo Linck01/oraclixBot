@@ -26,7 +26,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      const message = await msg.channel.send('Do you wish to send your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + answerCount + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '. Please verify by reacting with a 👍.');
+      const message = await msg.channel.send('Do you wish to send your question to the Oracle? \n ``' + question + '``\nThis will cost you ' + answerCount * msg.client.appData.settings.costPerAnswer + ' favors for ' + answerCount + ' answer' + ((answerCount == 1) ? '' : 's') + '. Please verify by reacting with a 👍.');
       message.react('👍');
 
       const collected = await message.awaitReactions(filter, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});

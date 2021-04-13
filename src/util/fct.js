@@ -53,13 +53,10 @@ exports.dateTimeString = (date) => {
 
 exports.extractPage = (args,entriesPerPage) => {
     let page = 1;
-    let time = 'Alltime';
 
     for (let i = 0;i < args.length;i++) {
       if ((+args[i]))
         page = Math.min(args.splice(i, 1), 100);
-      if (args[i] == 'year' || args[i] == 'month' || args[i] == 'week' || args[i] == 'day')
-        time = exports.capitalizeFirstLetter(args[i]);
     }
 
     const from = Math.max((page-1) * entriesPerPage + 1);

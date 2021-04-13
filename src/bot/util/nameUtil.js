@@ -106,18 +106,17 @@ exports.addGuildMemberNamesToRanks = (guild,memberRanks) => {
 }
 
 exports.getGuildMemberAlias = (member) => {
-  if (member.guild.appData.showNicknames) {
     if (member.nickname)
       return exports.cutName(member.nickname);
     else
       return exports.cutName(member.user.username);
-  } else
-    return exports.cutName(member.user.username);
 }
 
-exports.cutName = (name) => {
-  if (name.length > 32)
-    name = name.substr(0,32) + '..';
+exports.cutName = (name,length) => {
+  if (!length)
+    length = 32;
+  if (name.length > length)
+    name = name.substr(0,length) + '..';
 
   return name;
 }

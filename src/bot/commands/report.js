@@ -8,7 +8,7 @@ const errorMsgs = require('../../const/errorMsgs.js');
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
     try {
-      if (args.length < 2) {
+      if (args.length < 3) {
         await msg.channel.send(errorMsgs.get('tooFewArguments').replace('<prefix>',msg.guild.appData.prefix));
         return resolve();
       }
@@ -26,6 +26,13 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
+      const reason = args[2];
+
+      if (reason != 'atos' && reason != 'unrelated') {
+        await msg.channel.send(errorMsgs.get('invalidReportReason').replace('<prefix>',msg.guild.appData.prefix));
+        return resolve();
+      }
+
       let obj;
       if (type == 'question')
         obj = await questionModel.get(typeId);
@@ -38,7 +45,7 @@ module.exports = (msg,args) => {
       }
 
       const myUser = await userModel.getByDiscordUser(msg.author);
-      const res = await reportModel.create(type,typeId,myUser.userId);
+      const res = await reportModel.create(type,typeId,myUser.id,reason);
 
       if (res.error)
         return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));

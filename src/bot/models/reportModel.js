@@ -1,12 +1,13 @@
 const db = require('../../models/db.js');
 
-exports.create = (type,typeId,fromUserId) => {
+exports.create = (type,typeId,fromUserId,reason) => {
   return new Promise(async function (resolve, reject) {
     try {
       const res = await db.fetch({
             type: type,
             typeId: typeId,
-            fromUserId: fromUserId
+            fromUserId: fromUserId,
+            reason:reason
           },
           '/api/report/create',
           'post');
