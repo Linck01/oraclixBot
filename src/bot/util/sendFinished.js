@@ -1,7 +1,7 @@
 const db = require('../../models/db.js');
 const questionModel = require('../models/questionModel.js');
 const userModel = require('../models/userModel.js');
-const getAnswerEmbed = require('./getAnswerEmbed.js')
+const embeds = require('./embeds.js')
 
 
 module.exports.init = (client) => {
@@ -19,13 +19,13 @@ module.exports.init = (client) => {
             continue;
 
           const myAuthor = await userModel.get(question.fromUserId);
-          let author = channel.guild.members.cache.get(myAuthor.sourceId);
-          if (!author)
-            author = await channel.guild.members.fetch(myAuthor.sourceId);
+          let member = channel.guild.members.cache.get(myAuthor.sourceId);
+          if (!member)
+            member = await channel.guild.members.fetch(myAuthor.sourceId);
           const ping = '<@' + myAuthor.sourceId + '>';
 
           await questionModel.set(question.id,'sent',1);
-          await channel.send(ping + ' your Question has been answered!',getAnswerEmbed(question,question.answers));
+          await channel.send(ping,embeds.questionEmbed(client,question,question.answers,member.nickname));
           console.log('Successfully answered question ' + question.id + ' in guild ' + channel.guild.name + ' (' + question.answers.length + ' answers).');
         }
 

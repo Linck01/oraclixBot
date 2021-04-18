@@ -4,6 +4,7 @@ const config = require('../../const/config.js');
 const fct = require('../../util/fct.js');
 const userModel = require('../models/userModel.js');
 const errorMsgs = require('../../const/errorMsgs.js');
+const embeds = require('../util/embeds.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
@@ -18,45 +19,46 @@ module.exports = (msg,args) => {
       let res = await questionModel.getQuestionToAnswer(myUser.id);
 
       if (res.error)
-        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+        return resolve(await msg.channel.send(embeds.genericSmall(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix))));
       else
         question = res.results;
 
       if (!question) {
-        msg.channel.send('Sorry, there are no more open questions right now. Please try again later!');
+        await msg.channel.send(embeds.genericSmall('Sorry, there are no more open questions right now. Please try again later!'));
         return resolve();
       }
 
-      await msg.channel.send('Please answer the following question: ``' + question.text + '``');
-      let answer = await msg.channel.awaitMessages(filterMsg, { max: 1, time: 8000, errors: ['time'] }).catch(c => {});
+      await msg.channel.send(embeds.answerPresentEmbed(msg.client,question));
 
-      if (!answer) {
-        await msg.channel.send('Timeout.');
+      let answerText = await msg.channel.awaitMessages(filterMsg, { max: 1, time: config.answerTimeFrameS * 1000, errors: ['time'] }).catch(c => {});
+
+      if (!answerText) {
+        await msg.channel.send(embeds.genericSmall('Timeout.'));
         return resolve();
       }
 
-      answer = answer.first().content;
-      if (!answer || answer == '' || answer.startsWith(msg.guild.appData.prefix)) {
+      answerText = answerText.first().content;
+      if (!answerText || answerText == '' || answerText.startsWith(msg.guild.appData.prefix)) {
         //await msg.channel.send('Abort (new command detected).');
         return resolve();
       }
 
-      const message = await msg.channel.send('Do you wish to send your answer? \n ``' + answer + '``\n This will grant you 1 favor. Please verify by reacting with a 👍.');
+      const message = await msg.channel.send(embeds.answerEmbed(msg.client,question,answerText));
       await message.react('👍');
 
       const collected = await message.awaitReactions(filterEmoji, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
 
       if (!collected) {
-        await msg.channel.send('Timeout.');
+        await msg.channel.send(embeds.genericSmall('Timeout.'));
         return resolve();
       }
 
-      res = await answerModel.create(question.id,myUser.id,answer);
+      res = await answerModel.create(question.id,myUser.id,answerText);
 
       if (res.error)
-        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+        return resolve(await msg.channel.send(embeds.genericSmall(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix))));
       else
-        await msg.channel.send('Your answer has been sent to the Oracle!');
+        await message.edit(embeds.answerSentEmbed(msg.client,question,answerText));
 
     } catch (e) { return reject(e); }
 

@@ -8,7 +8,7 @@ module.exports = (msg,args) => {
       const page = fct.extractPage(args,msg.guild.appData.entriesPerPage);
 
       if (page.number < 1 || page.number > 100) {
-        await msg.channel.send('Pagenumber needs to be within 1 and 100.');
+        await msg.channel.send(embeds.genericSmall('Pagenumber needs to be within 1 and 100.'));
         return resolve();
       }
 

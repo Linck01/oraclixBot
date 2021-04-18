@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const fct = require('../util/fct.js');
-const sendFinished = require('./util/sendFinished.js');
 const cronScheduler = require('./cron/scheduler.js');
-const miscModel = require('../models/miscModel.js');
+const utilModel = require('../models/utilModel.js');
 
 const client = new Discord.Client(
   {ws: {intents:
@@ -26,7 +25,6 @@ async function start() {
   try {
     await initClientCaches(client);
     initEventTriggers(client);
-    initHelperFunctions(client);
 
     await client.login();
   } catch (e) {
@@ -64,17 +62,13 @@ function initEventTriggers(client) {
   client.on('guildDelete', (guild) => {onGuildDelete(guild).catch(e => console.log(e));});
 }
 
-function initHelperFunctions(client) {
-  client.appData.sendFinished = sendFinished.init(client);
-}
-
 function initClientCaches(client) {
   return new Promise(async function (resolve, reject) {
     try {
       client.appData = {};
       client.appData.botShardStat = { commands1h: 0, botInvites1h: 0, botKicks1h: 0};
-      client.appData.settings = await miscModel.getSettings();
-      client.appData.texts = await miscModel.getTexts();
+      client.appData.settings = await utilModel.getSettings();
+      client.appData.texts = await utilModel.getTexts();
 
       resolve();
     } catch (e) { console.log(e); }

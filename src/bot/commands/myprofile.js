@@ -17,7 +17,7 @@ module.exports = (msg,args) => {
       if (args.length == 0)
         await info(msg);
       else {
-        await msg.channel.send(errorMsgs.get('invalidSubcommand').replace('<prefix>',msg.guild.appData.prefix));
+        await msg.channel.send(embeds.genericSmall(errorMsgs.get('invalidSubcommand').replace('<prefix>',msg.guild.appData.prefix)));
         return resolve();
       }
     } catch (e) { reject(e); }

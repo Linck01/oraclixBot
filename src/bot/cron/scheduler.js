@@ -1,5 +1,6 @@
 const cron = require('node-cron');
 const fct = require('../../util/fct.js');
+const sendFinished = require('../util/sendFinished.js');
 
 if (process.env.NODE_ENV == 'production') {
   logHighestGuildsInterval = '0 */20 * * * *';
@@ -15,6 +16,8 @@ exports.start = (client) => {
   // Loops
   //startVoiceXp(client);
   //startResetJob();
+
+  client.appData.sendFinished = sendFinished.init(client);
 
   cron.schedule(logHighestGuildsInterval, async function() {
     try {

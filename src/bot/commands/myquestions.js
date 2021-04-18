@@ -38,11 +38,3 @@ module.exports = (msg,args) => {
     resolve();
   });
 }
-
-function info(msg,page) {
-  return new Promise(async function (resolve, reject) {
-    try {
-
-    } catch (e) { reject(e); }
-  });
-}

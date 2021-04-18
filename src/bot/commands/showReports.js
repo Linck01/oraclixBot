@@ -8,7 +8,7 @@ module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
     try {
       if (msg.author.id != '370650814223482880') {
-        await msg.channel.send('Only the owner of this bot can use this command.');
+        await msg.channel.send(embeds.genericSmall('Only the owner of this bot can use this command.'));
         return resolve();
       }
 
@@ -17,7 +17,7 @@ module.exports = (msg,args) => {
       const res = await reportModel.getTop(page.from,page.to,7776000);
 
       if (res.error)
-        return resolve(await msg.channel.send(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix)));
+        return resolve(await msg.channel.send(embeds.genericSmall(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix))));
 
       const embed = new Discord.MessageEmbed()
         .setAuthor('Top reports last 3 months.')
@@ -33,7 +33,6 @@ module.exports = (msg,args) => {
 
       await msg.channel.send(embed);
 
-      console.log('Show reports');
       resolve();
     } catch (e) { reject(e); }
   });

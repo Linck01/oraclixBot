@@ -3,7 +3,7 @@ const saveBotShardHealth = require('./saveBotShardHealth.js');
 const fct = require('../util/fct.js');
 const db = require('../models/db.js');
 const config = require('../const/config.js');
-const miscModel = require('../models/miscModel.js');
+const utilModel = require('../models/utilModel.js');
 
 let restartDelay,updateSettingsInterval,updateTextsInterval,saveBotShardHealthInterval;
 
@@ -24,6 +24,7 @@ if (process.env.NODE_ENV == 'production') {
 exports.start = (manager) => {
   return new Promise(async function (resolve, reject) {
     try {
+
       startUpdateSettings(manager);
       startUpdateTexts(manager);
       startSaveBotShardHealth(manager);
@@ -45,7 +46,7 @@ exports.start = (manager) => {
 const startUpdateSettings = async (manager) => {
   while(true) {
     try {
-      const settings = await miscModel.getSettings();
+      const settings = await utilModel.getSettings();
       await manager.broadcastEval(`this.appData.settings = ${JSON.stringify(settings)}`);
     } catch (e) { console.log(e); }
 
@@ -56,7 +57,7 @@ const startUpdateSettings = async (manager) => {
 const startUpdateTexts = async (manager) => {
   while(true) {
     try {
-      const texts = await miscModel.getTexts();
+      const texts = await utilModel.getTexts();
       await manager.broadcastEval(`this.appData.texts = ${JSON.stringify(texts)}`);
     } catch (e) { console.log(e); }
 

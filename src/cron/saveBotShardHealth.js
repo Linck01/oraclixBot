@@ -1,5 +1,7 @@
 const publicIp = require('public-ip');
 const ipInt = require('ip-to-int');
+const utilModel = require('../models/utilModel.js');
+
 
 module.exports = (manager) => {
   return new Promise(async function (resolve, reject) {
@@ -9,7 +11,7 @@ module.exports = (manager) => {
       const shards = await manager.broadcastEval(`
         const obj = {
           shardId: this.shard.ids[0],
-          uptimeSeconds: this.uptime / 1000,
+          uptimeS: this.uptime / 1000,
           readyDate: this.readyTimestamp,
           serverCount: this.guilds.cache.size
         };
@@ -21,13 +23,13 @@ module.exports = (manager) => {
 
       for (shard of shards) {
         shard.ip = ip;
-        shard.changedHealthDate = nowDate;
+        shard.changeDate = nowDate;
         shard.readyDate = new Date(shard.readyDate).getTime() / 1000;
         if (process.env.NODE_ENV != 'production')
           shard.shardId = shard.shardId + 1000000;
       }
 
-      //await fctModel.insertUpdateMulti('botShardStat',shards);
+      await utilModel.insertUpdateMulti('botShardStat',shards);
 
       resolve();
     } catch (e) { reject(e); }
