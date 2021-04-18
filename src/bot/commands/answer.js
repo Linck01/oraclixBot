@@ -46,7 +46,7 @@ module.exports = (msg,args) => {
       const message = await msg.channel.send(embeds.answerEmbed(msg.client,question,answerText));
       await message.react('👍');
 
-      const collected = await message.awaitReactions(filterEmoji, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
+      const collected = await message.awaitReactions(filterEmoji, { max: 1, time: config.answerTimeFrameS * 1000, errors: ['time'] }).catch(c => {});
 
       if (!collected) {
         await msg.channel.send(embeds.genericSmall('Timeout.'));

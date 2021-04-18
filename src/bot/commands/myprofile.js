@@ -36,7 +36,7 @@ function info(msg) {
           .setAuthor('Info for user ' + nameUtil.getGuildMemberAlias(msg.member), '')
           .setColor(config.embedColor)
           .setThumbnail(msg.author.iconURL)
-          .setFooter(msg.client.appData.settings.footer);
+          .setFooter(msg.client.appData.settings.news);
 
       embed.addField('**Favors**', myUser.credits);
       embed.addField('Active since', new Date(myUser.addDate * 1000).toLocaleString().split(',')[0] + '\n');

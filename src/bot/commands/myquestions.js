@@ -20,7 +20,7 @@ module.exports = (msg,args) => {
           .setAuthor('Questions from user ' + nameUtil.getGuildMemberAlias(msg.member), '')
           .setColor(config.embedColor)
           .setThumbnail(msg.author.iconURL)
-          .setFooter(msg.client.appData.settings.footer);
+          .setFooter(msg.client.appData.settings.news);
 
       pageQuestions = questions.slice(page.from,page.to+1);
       let recentQuestionsString = '';

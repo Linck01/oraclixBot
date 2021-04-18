@@ -3,6 +3,7 @@ const userModel = require('../models/userModel.js');
 const fct = require('../../util/fct.js');
 const errorMsgs = require('../../const/errorMsgs.js');
 const embeds = require('../util/embeds.js');
+const config = require('../../const/config.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
@@ -30,7 +31,7 @@ module.exports = (msg,args) => {
       const message = await msg.channel.send(embeds.askEmbed(msg.client,question,answerCount));
       message.react('👍');
 
-      const collected = await message.awaitReactions(filter, { max: 1, time: 180000, errors: ['time'] }).catch(c => {});
+      const collected = await message.awaitReactions(filter, { max: 1, time: config.answerTimeFrameS * 1000, errors: ['time'] }).catch(c => {});
 
       if (!collected)
         return resolve();

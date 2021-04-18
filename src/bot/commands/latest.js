@@ -19,7 +19,7 @@ module.exports = (msg,args) => {
           .setAuthor('Latest Questions', '')
           .setColor(config.embedColor)
           .setThumbnail(msg.author.iconURL)
-          .setFooter(msg.client.appData.settings.footer);
+          .setFooter(msg.client.appData.settings.news);
 
       let recentQuestionsString = '';
       if (questions.length == 0)
