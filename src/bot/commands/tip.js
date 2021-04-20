@@ -4,6 +4,7 @@ const answerModel = require('../models/answerModel.js');
 const reportModel = require('../models/reportModel.js');
 const fct = require('../../util/fct.js');
 const errorMsgs = require('../../const/errorMsgs.js');
+const embeds = require('../util/embeds.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
@@ -25,7 +26,7 @@ module.exports = (msg,args) => {
         return resolve();
       }
 
-      if (amount < 0.2 || amount > 10) {
+      if (amount < 1 || amount > 50) {
         await msg.channel.send(embeds.genericSmall(errorMsgs.get('tipAmountWrong').replace('<prefix>',msg.guild.appData.prefix)));
         return resolve();
       }

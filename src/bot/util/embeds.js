@@ -43,11 +43,12 @@ exports.askEmbed = (client,questionText,answerCount) => {
   return embed;
 }
 
-exports.askSentEmbed = (client,questionText,answerCount) => {
+exports.askSentEmbed = (client,question,answerCount) => {
+  console.log(question);
   const embed = new Discord.MessageEmbed()
     .setTitle('Question has been sent! Be patient for an answer.')
     .setColor(config.embedColor)
-    .setDescription('``' + questionText + '``')
+    .setDescription('``[' + question.id + '] ' + question.text + '``  [View in Browser](https://oraclix.com/q/' + question.id +')' )
     .setImage('')
     .setThumbnail('')
     .setFooter(client.appData.settings.news)
@@ -60,7 +61,7 @@ exports.answerPresentEmbed = (client,question) => {
   const embed = new Discord.MessageEmbed()
     .setTitle('Please answer the following question within the next ' + Math.floor(config.answerTimeFrameS / 60) + ' minutes: ')
     .setColor(config.embedColor)
-    .setDescription('``' + question.text + '``')
+    .setDescription('``[' + question.id + '] ' + question.text + '``')
     .setImage('')
     .setThumbnail('')
     //.setFooter(client.appData.settings.news)

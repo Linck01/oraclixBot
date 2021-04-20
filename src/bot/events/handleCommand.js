@@ -1,5 +1,6 @@
 const config = require('../../const/config.js');
 const fs = require('fs');
+const embeds = require('../util/embeds.js');
 
 const commandFiles = fs.readdirSync('./bot/commands/').filter(file => file.endsWith('.js')).map(file => file.slice(0,-3));
 
@@ -51,7 +52,7 @@ module.exports = (msg) => {
 			else if (command == 'faq' || command == 'faqs' || command == 'f')
 				await commands.get('faq')(msg,args);
 			else
-        await msg.channel.send('Unknown command. Type ``'+msg.guild.appData.prefix+'help`` for more information.\n');
+        await msg.channel.send(embeds.genericSmall('Unknown command. Type ``'+msg.guild.appData.prefix+'help`` for more information.\n'));
 
 			resolve();
     } catch (e) { reject(e); }

@@ -21,14 +21,14 @@ module.exports = (msg,args) => {
           answerCount = +args.splice(0,1);
       }
 
-      const question = args.slice(0,args.length+1).join(' ');
+      const questionText = args.slice(0,args.length+1).join(' ');
 
-      if (question.trim() == '') {
+      if (questionText.trim() == '') {
         await msg.channel.send(embeds.genericSmall('Please enter a question after the command.'));
         return resolve();
       }
 
-      const message = await msg.channel.send(embeds.askEmbed(msg.client,question,answerCount));
+      const message = await msg.channel.send(embeds.askEmbed(msg.client,questionText,answerCount));
       message.react('👍');
 
       const collected = await message.awaitReactions(filter, { max: 1, time: config.answerTimeFrameS * 1000, errors: ['time'] }).catch(c => {});
@@ -37,15 +37,14 @@ module.exports = (msg,args) => {
         return resolve();
 
       const myUser = await userModel.getByDiscordUser(msg.author);
-      const res = await questionModel.create(msg.channel.id,myUser.id,question,answerCount);
+      const res = await questionModel.create(msg.channel.id,myUser.id,questionText,answerCount);
 
       if (res.error)
         return resolve(await msg.channel.send(embeds.genericSmall(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix))));
       else
-        await message.edit(embeds.askSentEmbed(msg.client,question,answerCount));
+        await message.edit(embeds.askSentEmbed(msg.client,res.results,answerCount));
 
     } catch (e) { return reject(e); }
-
     return resolve();
   });
 }
