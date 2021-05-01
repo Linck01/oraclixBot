@@ -47,7 +47,7 @@ module.exports = (msg,args) => {
       if (res.error)
         return resolve(await msg.channel.send(embeds.genericSmall(errorMsgs.get(res.error).replace('<prefix>',msg.guild.appData.prefix))));
       else
-        await msg.channel.send(embeds.genericSmall('Tip sent!'));
+        await message.edit(embeds.genericSmall('Tip sent!'));
 
     } catch (e) { reject(e); }
     resolve();

@@ -24,11 +24,6 @@ module.exports = (msg,args) => {
       const question = await questionModel.get(questionId);
       const answers = await answerModel.getByQuestionId(questionId);
 
-      const myAuthor = await userModel.get(question.fromUserId);
-      let author = msg.guild.members.cache.get(myAuthor.sourceId);
-      if (!author)
-        author = await msg.guild.members.fetch(myAuthor.sourceId);
-
       await msg.channel.send(embeds.questionEmbed(msg.guild.client,question,answers));
 
     } catch (e) { reject(e); }
