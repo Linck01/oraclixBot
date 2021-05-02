@@ -22,6 +22,12 @@ module.exports = (msg,args) => {
       }
 
       const question = await questionModel.get(questionId);
+
+      if (!question) {
+        await msg.channel.send(embeds.genericSmall('The question with this id cannot be found. Type ``'+msg.guild.appData.prefix+'help`` for more information'));
+        return resolve();
+      }
+
       const answers = await answerModel.getByQuestionId(questionId);
 
       await msg.channel.send(embeds.questionEmbed(msg.guild.client,question,answers));
