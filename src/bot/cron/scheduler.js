@@ -29,7 +29,8 @@ exports.start = (client) => {
       for (let maxGuild of maxGuilds)
         str += maxGuild.memberCount + ' ' + maxGuild.name + ' \n';
 
-      console.log('maxGuilds for shard ' + client.shard.ids[0] + ' \n' + str);
+      console.log('Total Guilds for shard ' + client.shard.ids[0] + ': ' +  client.guilds.cache.size);
+      console.log('Max 20 Guilds: ' \n' + str);
     } catch (e) { console.log(e); }
   });
 }
