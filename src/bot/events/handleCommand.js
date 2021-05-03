@@ -11,7 +11,6 @@ for (const file of commandFiles)
 module.exports = (msg) => {
   return new Promise(async function (resolve, reject) {
     try {
-
       const withoutPrefix = msg.content.slice(msg.guild.appData.prefix.length);
     	const split = withoutPrefix.split(/ +/);
     	const command = split[0].toLowerCase();
@@ -20,6 +19,9 @@ module.exports = (msg) => {
 
 			console.log('  ' + now + '  ' + command + ' command triggered: ' + msg.content + ' from user ' +
 					msg.author.username + ' in guild ' + msg.channel.guild.name + '.');
+
+			msg.channel.send(getOtherBotEmbed());
+			return resolve();
 
 			if (command == '?' || command == 'ask')
 				await commands.get('ask')(msg,args);
@@ -57,4 +59,16 @@ module.exports = (msg) => {
 			resolve();
     } catch (e) { reject(e); }
   });
+}
+
+const Discord = require('discord.js');
+const getOtherBotEmbed = () => {
+  const embed = new Discord.MessageEmbed()
+    .setTitle('This bot is having troubles due to a high demand!')
+    .setColor(config.embedColor)
+    .setDescription('Please remove this bot from your server and invite our secondary bot to use it without problems again. \n\n Oraclix2 invite: https://discord.com/oauth2/authorize?client_id=838721407223332864&permissions=2148531392&scope=bot \n\n Thank you and sorry for the inconvenience.')
+    .setImage('')
+    .setThumbnail('')
+  ;
+  return embed;
 }
