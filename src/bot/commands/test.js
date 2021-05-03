@@ -34,10 +34,10 @@ module.exports = (msg) => {
 }
 
 function compare( a, b , field ) {
-  if ( a.joinedTimestamp < b.joinedTimestamp )
+  if ( a.memberCount < b.memberCount )
     return -1;
 
-  if ( a.joinedTimestamp > b.joinedTimestamp )
+  if ( a.memberCount > b.memberCount )
     return 1;
 
   return 0;
