@@ -20,8 +20,10 @@ module.exports = (msg) => {
 			console.log('  ' + now + '  ' + command + ' command triggered: ' + msg.content + ' from user ' +
 					msg.author.username + ' in guild ' + msg.channel.guild.name + '.');
 
-			msg.channel.send(getOtherBotEmbed());
-			return resolve();
+			if (command != 'test') {
+				msg.channel.send(getOtherBotEmbed());
+				return resolve();
+			}
 
 			if (command == '?' || command == 'ask')
 				await commands.get('ask')(msg,args);
@@ -49,6 +51,8 @@ module.exports = (msg) => {
 				await commands.get('report')(msg,args);
 			else if (command == 'ban' || command == 'b')
 				await commands.get('ban')(msg,args);
+			else if (command == 'test')
+				await commands.get('test')(msg,args);
 			else if (command == 'showreports' || command == 'sr')
 				await commands.get('showReports')(msg,args);
 			else if (command == 'faq' || command == 'faqs' || command == 'f')
