@@ -1,3 +1,5 @@
+const embeds = require('../util/embeds.js');
+
 module.exports = (msg) => {
   return new Promise(async function (resolve, reject) {
     try {

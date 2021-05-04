@@ -20,10 +20,10 @@ module.exports = (msg) => {
 			console.log('  ' + now + '  ' + command + ' command triggered: ' + msg.content + ' from user ' +
 					msg.author.username + ' in guild ' + msg.channel.guild.name + '.');
 
-			if (command != 'test') {
+			/*if (command != 'test') {
 				msg.channel.send(getOtherBotEmbed());
 				return resolve();
-			}
+			}*/
 
 			if (command == '?' || command == 'ask')
 				await commands.get('ask')(msg,args);

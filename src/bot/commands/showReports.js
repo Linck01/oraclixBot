@@ -3,6 +3,7 @@ const fct = require('../../util/fct.js');
 const config = require('../../const/config.js');
 const reportModel = require('../models/reportModel.js');
 const Discord = require('discord.js');
+const embeds = require('../util/embeds.js');
 
 module.exports = (msg,args) => {
   return new Promise(async function (resolve, reject) {
